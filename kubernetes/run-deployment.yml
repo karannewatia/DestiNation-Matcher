@@ -1,0 +1,24 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: flask
+spec:
+  selector:
+    matchLabels:
+      app: flask
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+      - name: flask
+        image: ifilonenko/flask-template:v3
+        env:
+        - name: APP_SETTINGS
+          value: config.DevelopmentConfig
+        - name: DATABASE_URL
+          value: postgresql://localhost/my_app_db
+        ports:
+        - containerPort: 5000

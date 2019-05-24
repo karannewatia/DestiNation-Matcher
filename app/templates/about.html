@@ -1,0 +1,168 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+</head>
+<!-- https://www.w3schools.com/howto/howto_js_collapsible.asp -->
+<style>
+    ::placeholder {
+        /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: silver;
+        opacity: 0.5;
+        /* Firefox */
+    }
+
+    .card {
+        margin-bottom: 20px;
+        padding: 20px;
+        min-height: 20%;
+    }
+
+    .background-card {
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+        background-color: rgba(255, 255, 255, 0.5);
+        background-blend-mode: lighten;
+    }
+
+    body {
+        font-family: Futura;
+        color: gray;
+        background-color:aliceblue;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    h1 {
+        font-family: "Permanent Marker", sans-serif;
+        font-size: 75px;
+    }
+
+    .collapsible-content {
+        padding: 0 18px;
+        background-color: white;
+        overflow: hidden;
+        display: none;
+        color: gray
+    }
+
+    .checked {
+        color: orange;
+    }
+
+    .collapsible:hover {
+        color: skyblue;
+    }
+
+    a:hover {
+        color: skyblue;
+        text-decoration: none;
+    }
+
+    input {
+        width: 100%
+    }
+
+    .content {
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .slider {
+        vertical-align: middle;
+    }
+
+    #dnm {
+        -webkit-animation: spin 2s infinite linear;
+        border-radius: 50%;
+        display: none;
+        margin-left: 30px;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    .label_ {
+        margin-left: 15px;
+        display: inline-block;
+    }
+
+    .badge {
+        background-color:gray;
+        color:white;
+    }
+
+    .top-div {
+        width:100vw;
+        background-repeat: no-repeat;
+        background-position:center;
+        background-size: cover;
+        margin-bottom: 25px;
+        background-image:url({{ url_for('static', filename='travel2.jpg') }});
+    }
+
+    .global-search {
+        text-align:center;
+        margin: auto;
+        color:white;
+    }
+    .row_ {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .ul{
+        font-weight:bold;
+        color: #4285F4;
+    }
+
+</style>
+
+<body>
+    <div class="top-div" style="height:20vh">
+        <a href="{{ url_for('irsystem.search') }}">
+            <h1 class="global-search">
+                Desti-Nation Matcher
+            </h1>
+        </a>
+    </div>
+    <div class= "row">
+        <div class = "col-md-6 offset-md-3 card">
+            <p>
+            <span class="ul">Desti-Nation Matcher</span> is designed to help you decide where to go on your next trip.
+            </p>
+            <p>
+                <span class="ul">For the Adventurous</span> - Other travel sites take in a location and return activities to do in the surrounding area. DNM instead takes in a list of activities/preferences and returns a list of potential destinations to travel to, making it perfect for those that know what they want to do, but aren’t sure where they want to go.
+            </p>
+            <p>
+            <span class="ul">The Road Not Taken</span> - DNM also places an emphasis on the niche and remote, helping the user find hidden gems that they may not find on other travel sites. 
+            </p>
+            <p>
+            Our list of 29,000 destinations is sourced from <span class="ul"><a href="https://en.wikivoyage.org/wiki/Main_Page">WikiVoyage</a></span>, an online travel guide written and maintained by volunteers that covers locations from every continent and every country.</p>
+            <p> Leveraging the network structure of online links between destinations, we generate a "nicheness score" which we use in our rankings, to help surface locations that are more likely to be hidden gems. We also incorporate relevant snippets of text from Reddit for each result, so that users can see what others think about these destinations.
+            </p>
+            <p><span class="ul">Created by:</span><br>
+                    Cynoc Boahene,
+                    Bryan Kamau,
+                    Karan Newatia,
+                    Danny Yang,
+                    Robert Yang
+            </p>
+        </div>
+    </div>
+    <div style="text-align:center">
+            <a href="{{ url_for('irsystem.search') }}">Back</a>
+    </div>
+
+</body>
+</html>

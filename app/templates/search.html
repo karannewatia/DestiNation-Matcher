@@ -1,0 +1,449 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+    <!-- Below three required to run Bootstrap js (such as the collapse feature for Advanced Search -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <!-- Above three required to run Bootstrap js (such as the collapse feature for Advanced Search -->
+
+    <!-- Below three required for autocomplete -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- Above three required for autocomplete -->
+    <!-- Script for autocomplete -->
+    <!-- Large portion of the next few lines of code taken from: http://jqueryui.com/autocomplete/#multiple -->
+    <script>
+        $(function(){
+            var availableTagsStr = {{autocomplete_words|tojson|safe}};
+            availableTags = availableTagsStr.split(',')
+            function split(val) {
+                return val.split(/,\s*/);
+            }
+            function extractLast(term) {
+                return split(term).pop();
+            }
+            var autocomplete_config = {
+                minLength: 1,
+                source: function(request, response) {
+                    // delegate back to autocomplete, but extract the last term
+                    response($.ui.autocomplete.filter(
+                        availableTags, extractLast(request.term)).slice(0,10));
+                },
+                focus: function() {
+                    // prevent value inserted on focus
+                    return false;
+                },
+                select: function( event, ui ) {
+                    var terms = split( this.value );
+                    // remove the current input
+                    terms.pop();
+                    // add the selected item
+                    terms.push( ui.item.value );
+                    // add placeholder to get the comma-and-space at the end
+                    terms.push("");
+                    this.value = terms.join( ", " );
+                    return false;
+                }
+            }
+            $("#activitiesInput").autocomplete(autocomplete_config);
+            $("#likesInput").autocomplete(autocomplete_config);
+            $("#dislikesInput").autocomplete(autocomplete_config);
+        });
+    </script>
+    <!-- Above three required for autocomplete -->
+    <script>
+        window.onload = function(){
+            var nearbySlider = document.getElementById("nearbySlider");
+            var nearbyEmphasisVal = document.getElementById("nearbyEmphasisVal");
+            nearbyEmphasisVal.innerHTML = nearbySlider.value;
+            nearbySlider.oninput = function(){
+                nearbyEmphasisVal.innerHTML = this.value;
+            }
+            
+            var languageSlider = document.getElementById("languageSlider");
+            var languageEmphasisVal = document.getElementById("languageEmphasisVal");
+            languageEmphasisVal.innerHTML = languageSlider.value;
+            languageSlider.oninput = function(){
+                languageEmphasisVal.innerHTML = this.value;
+            }
+
+            var drinkingSlider = document.getElementById("drinkingSlider");
+            var drinkingEmphasisVal = document.getElementById("drinkingEmphasisVal");
+            drinkingEmphasisVal.innerHTML = drinkingSlider.value;
+            drinkingSlider.oninput = function(){
+                drinkingEmphasisVal.innerHTML = this.value;
+            }
+        }
+    
+    </script>
+
+</head>
+<!-- https://www.w3schools.com/howto/howto_js_collapsible.asp -->
+<style>
+    ::placeholder {
+        /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: silver;
+        opacity: 0.5;
+        /* Firefox */
+    }
+
+    .card {
+        margin-bottom: 20px;
+        padding: 20px;
+        min-height: 20%;
+    }
+
+    .background-card {
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+        background-color: rgba(255, 255, 255, 0.5);
+        background-blend-mode: lighten;
+    }
+
+    body {
+        font-family: Futura;
+        color: #4285F4;
+        background-color:aliceblue;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    h1 {
+        font-family: "Permanent Marker", sans-serif;
+        font-size: 75px;
+    }
+
+    .collapsible-content {
+        padding: 0 18px;
+        background-color: white;
+        overflow: hidden;
+        display: none;
+        color: gray
+    }
+
+    .checked {
+        color: orange;
+    }
+
+    .collapsible:hover {
+        color: skyblue;
+    }
+
+    a:hover {
+        color: skyblue;
+        text-decoration: none;
+    }
+
+    input {
+        width: 100%
+    }
+
+    .content {
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .slider {
+        vertical-align: middle;
+    }
+
+    #dnm {
+        -webkit-animation: spin 2s infinite linear;
+        border-radius: 50%;
+        display: none;
+        margin-left: 30px;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    .label_ {
+        margin-left: 15px;
+        display: inline-block;
+    }
+
+    .badge {
+        background-color:gray;
+        color:white;
+    }
+
+    .top-div {
+        width:100vw;
+        background-repeat: no-repeat;
+        background-position:center;
+        background-size: cover;
+        margin-bottom: 25px;
+        background-image:url({{ url_for('static', filename='travel2.jpg') }});
+    }
+
+    .global-search {
+        text-align:center;
+        margin: auto;
+        color:white;
+    }
+    .row_ {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+</style>
+
+<body>
+    <div class="top-div" style="height:{{ '40vh' if data | length == 0 else '20vh'}}">
+        <div class="top-spacer" style="height:{{ '15vh' if data | length == 0 else '0px'}}"></div>
+        <a href="{{ url_for('irsystem.search') }}">
+            <h1 class="global-search">
+                Desti-Nation Matcher
+            </h1>
+        </a>
+    </div>
+    <form>
+        <!-- Activities Input -->
+        <div class="row">
+            <div class="form-group col-sm-4 offset-sm-4">
+                <input type="text" class="form-control" id="activitiesInput" name="activities"
+                    placeholder="Kayaking, Hiking" value="{{ form_data['activities'] if  form_data['activities']  }}">
+                <small id="activitiesHelp" class="form-text text-muted">
+                    What do you want to do on your trip?
+                </small>
+            </div>
+            <div class="form-group col-sm-2">
+                
+            </div>
+        </div>
+
+        <!-- Advanced Search Toggle Button -->
+        <div style="display: flex; justify-content: center;">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#advancedSearch"
+                aria-expanded="true" aria-controls="advancedSearch">
+                Advanced Search
+            </button>
+        </div>
+
+        <!-- Advanced Search -->
+        <div class="collapse" id="advancedSearch">
+            <!-- Nearby Input -->
+            <div class="row row_">
+                <div class="form-group col-sm-4 offset-sm-4">
+                    <label for="nearbyInput">Nearby</label>
+                    <input type="text" class="form-control" id="nearbyInput" name="nearby" placeholder="Paris"
+                        value="{{ form_data['nearby'] if  form_data['nearby'] }}">
+                    <small id="nearbyHelp" class="form-text text-muted">
+                        In or near what city would you like to travel to?
+                    </small>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <small id="nearbyEmphasis" class="form-text text-muted">Emphasis:</small> 
+                        </div>
+                        <div class="col-sm-9 my-auto">
+                            <input id="nearbySlider" name="nearbySlider" type="range" min="1" max="5" 
+                                value="{{ form_data['nearbySlider'] if form_data['nearbySlider'] else 3}}">
+                        </div>
+                        <div class="col-sm-1">
+                            <small id="nearbyEmphasisVal" class="form-text text-muted"></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Likes and Dislikes Inputs -->
+            <div class="row row_">
+                <div class="form-group col-sm-2 offset-sm-4">
+                    <label for="likesInput">Likes</label>
+                    <input type="text" class="form-control" id="likesInput" name="likes" placeholder="Cold, Mountains"
+                        value="{{ form_data['likes'] if  form_data['likes'] }}">
+                    <small id="likesHelp" class="form-text text-muted">
+                        Desirable qualities in travel locations
+                    </small>
+                </div>
+
+                <div class="form-group col-sm-2">
+                    <label for="dislikesInput">Dislikes</label>
+                    <input type="text" class="form-control" id="dislikesInput" name="dislikes"
+                        placeholder="Mosquito, Traffic" value="{{ form_data['dislikes'] if  form_data['dislikes'] }}">
+                    <small id="dislikesHelp" class="form-text text-muted">
+                        Undesirable qualities in travel locations
+                    </small>
+                </div>
+            </div>
+
+            <!-- Language and Drinking Age Inputs -->
+            <div class="row row_">
+                <div class="form-group  col-sm-2 offset-sm-4">
+                    <label for="languageInput">Language</label>
+                    <input type="text" class="form-control" id="languageInput" name="language" placeholder="Spanish"
+                        value="{{ form_data['language'] if form_data['language'] }}">
+                    <small id="languageHelp" class="form-text text-muted">
+                        Dominant language spoken at the resulting locations
+                    </small>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <small id="languageEmphasis" class="form-text text-muted">Emphasis:</small> 
+                        </div>
+                        <div class="col-sm-6 my-auto">
+                            <input id="languageSlider" name="languageSlider" type="range" min="1" max="5" 
+                                value="{{ form_data['languageSlider'] if form_data['languageSlider'] else 3}}">
+                        </div>
+                        <div class="col-sm-2">
+                            <small id="languageEmphasisVal" class="form-text text-muted"></small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-2">
+                    <label for="drinkingAgeInput">Drinking Age</label>
+                    <input type="text" class="form-control" id="drinkingAgeInput" name="drinkingAge" placeholder="18"
+                        value="{{ form_data['drinkingAge'] if  form_data['drinkingAge'] }}">
+                    <small id="drinkingAgeHelp" class="form-text text-muted">
+                        Decreased emphasis on places with higher drinking ages
+                    </small>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <small id="drinkingEmphasis" class="form-text text-muted">Emphasis:</small> 
+                        </div>
+                        <div class="col-sm-6 my-auto">
+                            <input id="drinkingSlider" name="drinkingSlider" type="range" min="1" max="5" 
+                                value="{{ form_data['drinkingSlider'] if form_data['drinkingSlider'] else 3}}">
+                        </div>
+                        <div class="col-sm-2">
+                            <small id="drinkingEmphasisVal" class="form-text text-muted"></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Method -->
+            <div class="row">
+                <div class="form-group col-sm-4 offset-sm-4">
+                    <p>Search Method</p>
+                    <div id="l1" class="form-check form-check-inline">
+                        <input id="radio1" type="radio" name="useNicheness" value="y" checked><label
+                            class="form-check-label text-muted label_" for="radio1">Similarity<span style="color:white">.</span>and<span
+                                style="color:white">.</span>Nicheness*</label>
+                    </div>
+                    <div id = "l2" class="form-check form-check-inline">
+                        <input id="radio2" type="radio" name="useNicheness" value="n"><label
+                            class="form-check-label text-muted label_" for="radio2">Similarity<span style="color:white">.</span>Only</label>
+                    </div>
+                    <small id="useNichenessHelp" class="form-text text-muted">
+                        *Nicheness refers to our rating of how likely this place is a "hidden gem"
+                    </small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mb-3"></div> <!-- Vertical margin so that Go! button isn't too close to Activities bar -->
+
+        <!-- Submit button -->
+        <div style="display: flex; justify-content: center;">
+            <button id="submit" type="submit" class="btn btn-primary" style="text-align:center">Go!</button>
+            <image id="dnm" width="40px" height="40px" src="{{ url_for('static', filename='dnm.png') }}"></image>
+        </div>
+
+    </form>
+
+    {% if data %}
+    {% for data_idx in range(10) %}
+    <div class="row">
+        <div class="col-sm-6 offset-sm-3 card background-card"
+            style='background-image:url({{ data[data_idx]["image"] }})'>
+            <div>
+                <span>
+                    <h5 class="card-title"><a class="content"
+                            href="{{ data[data_idx]['url'] }}">{{ data[data_idx]['name'] }}</a> <span
+                            class="badge">{{ data[data_idx]['type'] }}</span></h4>
+                </span>
+                <span class=content>
+                    <span>Similarity: </span>
+                    {{ data[data_idx]['sim_stars']|safe }}
+                    <br>
+                    <span>Relative Nicheness: </span>
+                    {{ data[data_idx]['nicheness_stars']|safe }}
+                    <br>
+                        <span>Relevant Keywords: </span>
+                    {% for i in range(data[data_idx]['relevant_keywords'] | length) %}
+                        <span class="badge">{{ data[data_idx]['relevant_keywords'][i] }}</span>
+                    {% endfor %}
+                    <br>
+                </span>
+                <!-- <p class="card-text">Location selected because it has:</p> -->
+                <span class="collapsible content">Additional Details</span>
+                <div class="collapsible-content">
+                    <span>Local Languages: <span class="text-muted">{{ data[data_idx]['languages'] }}</span></span><br>
+                    <span>Drinking Age: <span class="text-muted">{{ data[data_idx]['drinking'] }}</span></span><br>
+                    <span>Relevant Snippets from Reddit:
+                        <span style="color:#DAF7A6;font-size:25px">■</span> positive sentiment <span
+                            style="color:#FEE081;font-size:25px">■</span> neutral/negative sentiment</span><br>
+                    {% for i in data[data_idx]['reviews'] %}
+                    <p style='background-color:{{ "#DAF7A6" if i[1] >= 0.5 else "#FEE081" }}'>
+                        {{ "..." + i[0][:299] + "..." }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div style="text-align:center">
+        <a href="{{ url_for('irsystem.about') }}">About</a>
+    </div>
+    <div style="text-align:center; margin-top:1%">
+        <small><a href="https://destinationmatcher-dnm.herokuapp.com/">First Prototype</a></small>
+    </div>
+    <div style="text-align:center">
+        <small><a href="https://dnm-v2.herokuapp.com/">Second Prototype</a></small>
+    </div>
+
+</body>
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+
+    //collapsible
+    for (var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+
+    //fix the radio buttons
+    var l1 = document.getElementById("l1");
+    var l2 = document.getElementById("l2");
+    l1.addEventListener("click", function () {
+        this.firstElementChild.click();
+    });
+    l2.addEventListener("click", function () {
+        this.firstElementChild.click();
+    });
+
+    var submit = document.getElementById("submit");
+    submit.addEventListener("click", function () {
+        document.getElementById("dnm").setAttribute("style", "display:block;");
+    });
+</script>
+
+</html>

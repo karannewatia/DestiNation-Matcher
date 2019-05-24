@@ -1,0 +1,22 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: flask
+spec:
+  selector:
+    matchLabels:
+      app: flask
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+      - name: flask
+        image: yangdanny97/destination-matcher:latest
+        env:
+        - name: APP_SETTINGS
+          value: config.ProductionConfig
+        ports:
+        - containerPort: 5000

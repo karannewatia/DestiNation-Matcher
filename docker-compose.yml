@@ -1,0 +1,6 @@
+flask:
+    image: yangdanny97/destination-matcher:latest
+    ports:
+      - "5000:5000"
+    environment:
+    - APP_SETTINGS=config.ProductionConfig
